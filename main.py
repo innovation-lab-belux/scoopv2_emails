@@ -23,7 +23,7 @@ def weekly_task():
 
 
 # Schedule the task to run every sunday at 8:00 AM
-schedule.every().sunday.at("08:00").do(weekly_task)
+schedule.every().thursday.at("13:45").do(weekly_task)
 
 while True:
     schedule.run_pending()
@@ -158,9 +158,9 @@ def askAgentInChat(agent,chat,msg):
 
 
 def send_email(subject, body, recipient_email):
-    sender_email = "sap-scoop2@gmail.com"
-    sender_password = "your_email_password"
-    smtp_server = "smtp.example.com"
+    sender_email = "sap.scoop.news@gmail.com"
+    sender_password = "omhs msje tsyy rzuf"
+    smtp_server = "smtp.gmail.com"
     smtp_port = 587
 
     # Create the email
