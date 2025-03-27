@@ -3,6 +3,9 @@ import time
 import requests
 import json
 import uuid
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 def weekly_task():
     customers = ["carrefour", "colruyt"]
@@ -11,7 +14,11 @@ def weekly_task():
     for customer in customers:
         askAgentInChat("b4a59ce2-1afc-4793-bd55-ebd2e5bab313", customer)
 
-
+    # Send an email after the task is completed
+    subject = "test subject"
+    body = "testing body."
+    recipient_email = "liano.caekebeke@sap.com"
+    send_email(subject, body, recipient_email)
 
 
 
@@ -145,3 +152,32 @@ def askAgentInChat(agent,chat,msg):
   answer = PostAgentsAPI(string,new_message_data)
 
   return answer
+
+
+
+
+
+def send_email(subject, body, recipient_email):
+    sender_email = "sap-scoop2@gmail.com"
+    sender_password = "your_email_password"
+    smtp_server = "smtp.example.com"
+    smtp_port = 587
+
+    # Create the email
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recipient_email
+    msg['Subject'] = subject
+
+    # Attach the email body
+    msg.attach(MIMEText(body, 'plain'))
+
+    try:
+        # Connect to the SMTP server and send the email
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()  # Secure the connection
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, recipient_email, msg.as_string())
+            print("Email sent successfully!")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
