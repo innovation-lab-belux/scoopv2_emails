@@ -23,7 +23,7 @@ def weekly_task():
 
 
 # Schedule the task to run every sunday at 8:00 AM
-schedule.every().thursday.at("13:45").do(weekly_task)
+schedule.every().thursday.at("14:00").do(weekly_task)
 
 while True:
     schedule.run_pending()
