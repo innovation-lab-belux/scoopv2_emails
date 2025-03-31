@@ -4,8 +4,13 @@ import requests
 import json
 import uuid
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 def weekly_task():
     customers = ["carrefour", "colruyt"]
@@ -19,15 +24,6 @@ def weekly_task():
     body = "testing body."
     recipient_email = "liano.caekebeke@sap.com"
     send_email(subject, body, recipient_email)
-
-
-
-# Schedule the task to run every sunday at 8:00 AM
-schedule.every().thursday.at("13:45").do(weekly_task)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
 
 #b4a59ce2-1afc-4793-bd55-ebd2e5bab313
 # ---------- Agent API ----------
@@ -116,7 +112,7 @@ def createChat(agent="b4a59ce2-1afc-4793-bd55-ebd2e5bab313",name="New conversati
 
 
 
-  def PostAgentsAPI(url_request,data=None):
+def PostAgentsAPI(url_request,data=None):
     tk = getToken()
 
     headers = {
@@ -159,7 +155,7 @@ def askAgentInChat(agent,chat,msg):
 
 def send_email(subject, body, recipient_email):
     sender_email = "sap.scoop.news@gmail.com"
-    sender_password = "omhs msje tsyy rzuf"
+    sender_password = os.getenv("EMAIL_PASSWORD")
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
 
@@ -181,3 +177,13 @@ def send_email(subject, body, recipient_email):
             print("Email sent successfully!")
     except Exception as e:
         print(f"Failed to send email: {e}")
+
+
+
+
+# Schedule the task to run every sunday at 8:00 AM
+schedule.every().thursday.at("13:45").do(weekly_task)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
