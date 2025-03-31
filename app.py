@@ -182,7 +182,7 @@ def send_email(subject, body, recipient_email):
 
 
 # Schedule the task to run every sunday at 8:00 AM
-schedule.every().thursday.at("13:45").do(weekly_task)
+schedule.every().monday.at("11:00").do(weekly_task)
 while True:
     schedule.run_pending()
     time.sleep(1)
