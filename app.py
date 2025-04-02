@@ -13,17 +13,19 @@ load_dotenv()
 
 
 def weekly_task():
+    print("Weekly task started...")
     customers = ["carrefour", "colruyt"]
-    createChat()
+    new_chat_id =createChat()
 
-    for customer in customers:
-        askAgentInChat("b4a59ce2-1afc-4793-bd55-ebd2e5bab313", customer)
+    if new_chat_id:
+      for customer in customers:
+          askAgentInChat("b4a59ce2-1afc-4793-bd55-ebd2e5bab313","01234567-89ab-cdef-0123-456789abcdef", customer)
 
-    # Send an email after the task is completed
-    subject = "test subject"
-    body = "testing body."
-    recipient_email = "liano.caekebeke@sap.com"
-    send_email(subject, body, recipient_email)
+      # Send an email after the task is completed
+      subject = "test subject"
+      body = "testing body."
+      recipient_email = "liano.caekebeke@sap.com"
+      send_email(subject, body, recipient_email)
 
 #b4a59ce2-1afc-4793-bd55-ebd2e5bab313
 # ---------- Agent API ----------
@@ -49,7 +51,6 @@ def getToken():
       return access_token
   else:
       print(f"Error: {response.status_code} - {response.text}")
-
 
 
 def createChat(agent="b4a59ce2-1afc-4793-bd55-ebd2e5bab313",name="New conversation"):
@@ -108,6 +109,7 @@ def createChat(agent="b4a59ce2-1afc-4793-bd55-ebd2e5bab313",name="New conversati
 
   string = "/"+agent+"/chats"
   PostAgentsAPI(string,new_chat_data)
+  print("chat created")
   return new_chat
 
 
@@ -129,9 +131,11 @@ def PostAgentsAPI(url_request,data=None):
 
     if response.status_code == 200:
         data = response.json()
+        print("postAgent success")
         return data
     else:
         #print(f"Error: {response.status_code} - {response.text}")
+        print("postAgent failed")
         return response.status_code
 
 
@@ -179,10 +183,12 @@ def send_email(subject, body, recipient_email):
         print(f"Failed to send email: {e}")
 
 
+#--------------------------------------------------------------------------------------------
 
 
 # Schedule the task to run every sunday at 8:00 AM
-schedule.every().monday.at("11:00").do(weekly_task)
+schedule.every().wednesday.at("9:35").do(weekly_task)
+print("Scheduler started. Waiting for tasks to run...")
 while True:
     schedule.run_pending()
     time.sleep(1)
